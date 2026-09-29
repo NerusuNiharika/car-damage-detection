@@ -3,7 +3,7 @@
 
 ### An AI-powered vehicle damage detection system that identifies and classifies car damage from images, videos, and live webcam feeds using a custom-trained YOLOv8 model.
 
-<p align="center">
+<p>
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)
 ![Flask](https://img.shields.io/badge/Flask-Web%20Framework-black?style=for-the-badge&logo=flask)
