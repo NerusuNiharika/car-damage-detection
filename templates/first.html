@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Car damage detection{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <h1 class="h-display">Spot vehicle damage the moment you upload it.</h1>
+    <p class="lede">Add a photo or a video, or turn on a live camera. The model boxes each damaged area and names it, from a cracked windshield to a dented panel.</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="{{ url_for('image') }}">Check a photo</a>
+      <a class="btn btn-ghost" href="{{ url_for('webcam') }}">Use live camera</a>
+    </div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="scan" aria-hidden="true"></div>
+    {% include "_car.html" %}
+    <div class="chips" role="group" aria-label="Damage types the model finds">
+      <button type="button" class="chip" data-zone="door">Door</button>
+      <button type="button" class="chip" data-zone="window">Window</button>
+      <button type="button" class="chip" data-zone="headlight">Headlight</button>
+      <button type="button" class="chip" data-zone="mirror">Mirror</button>
+      <button type="button" class="chip" data-zone="dent">Dent</button>
+      <button type="button" class="chip" data-zone="hood">Hood</button>
+      <button type="button" class="chip" data-zone="bumper">Bumper</button>
+      <button type="button" class="chip" data-zone="windshield">Windshield</button>
+    </div>
+  </div>
+</section>
+
+<section class="routes" aria-label="Ways to check a vehicle">
+  <a class="route" href="{{ url_for('image') }}">
+    <h2>Photo</h2>
+    <p>Upload a JPG or PNG and get the same picture back with every damaged area boxed and labeled.</p>
+    <span class="go">Open photo check</span>
+  </a>
+  <a class="route" href="{{ url_for('video') }}">
+    <h2>Video</h2>
+    <p>Upload an MP4. Each frame is scanned and the annotated result is saved as output.mp4.</p>
+    <span class="go">Open video check</span>
+  </a>
+  <a class="route" href="{{ url_for('webcam') }}">
+    <h2>Live camera</h2>
+    <p>Walk around a vehicle with a webcam and watch damage get marked in real time.</p>
+    <span class="go">Open live camera</span>
+  </a>
+</section>
+
+<dl class="facts">
+  <div><dt>Model</dt><dd>YOLOv8</dd></div>
+  <div><dt>Accuracy</dt><dd>91%</dd></div>
+  <div><dt>Damage types</dt><dd>8</dd></div>
+</dl>
+{% endblock %}

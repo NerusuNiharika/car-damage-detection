@@ -1,0 +1,5 @@
+<div class="field">
+  <label for="conf">Sensitivity: <output id="conf-out">{{ conf or 25 }}</output>% minimum confidence</label>
+  <input type="range" id="conf" name="conf" min="10" max="90" step="5" value="{{ conf or 25 }}" oninput="document.getElementById('conf-out').textContent = this.value">
+  <span class="muted small">Lower finds more possible damage but adds false alarms. Higher shows only sure matches.</span>
+</div>

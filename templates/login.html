@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Sign in | Car damage detection{% endblock %}
+
+{% block chrome %}
+<div class="auth">
+  <section class="auth-art">
+    <a class="brand" href="{{ url_for('first') }}">
+      <svg class="brand-mark" viewBox="0 0 30 44" aria-hidden="true">
+        <rect x="1" y="9" width="4" height="9" rx="2" fill="#050a12"/><rect x="25" y="9" width="4" height="9" rx="2" fill="#050a12"/>
+        <rect x="1" y="28" width="4" height="9" rx="2" fill="#050a12"/><rect x="25" y="28" width="4" height="9" rx="2" fill="#050a12"/>
+        <path d="M15 1c7 0 11 4 11 12v18c0 8-4 12-11 12S4 39 4 31V13C4 5 8 1 15 1Z" fill="#2b425d" stroke="#6f8bad" stroke-width="1.5"/>
+        <circle cx="21" cy="32" r="4" fill="#ff4d2e"/>
+      </svg>
+      <span class="brand-name">Car damage<br>detection</span>
+    </a>
+    {% include "_car.html" %}
+    <h1 class="h-display">Every dent, found before the estimate.</h1>
+  </section>
+
+  <section class="auth-form">
+    <form method="post" action="{{ url_for('login') }}">
+      <input type="hidden" name="next" value="{{ next or '' }}">
+      <div>
+        <h2 class="h-page">Sign in</h2>
+        <p class="muted">{% if next %}Sign in to use the damage checker.{% else %}Use your account to open the damage checker.{% endif %}</p>
+      </div>
+      <div class="field">
+        <label for="uname">Username</label>
+        <input type="text" id="uname" name="uname" autocomplete="username" required autofocus>
+      </div>
+      <div class="field">
+        <label for="pwd">Password</label>
+        <input type="password" id="pwd" name="pwd" autocomplete="current-password" required>
+      </div>
+      {% if error %}<p class="error show" role="alert">{{ error }}</p>{% endif %}
+      <button class="btn btn-primary" type="submit">Sign in</button>
+    </form>
+  </section>
+</div>
+{% endblock %}

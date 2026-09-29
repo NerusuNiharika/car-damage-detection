@@ -1,0 +1,18 @@
+A System for Automated Vehicle Damage Localization and Severity Estimation Using Deep Learning.
+ 
+Algorithm / Model Used: YoloV8
+
+Accuracy Achieved: 91%.
+****************************************
+8 classifications 
+
+0: damaged door
+1: damaged window
+2: damaged headlight
+3: damaged mirror
+4: dent
+5: damaged hood
+6: damaged bumper
+7: damaged wind shield
+
+

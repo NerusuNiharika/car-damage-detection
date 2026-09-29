@@ -1,0 +1,14 @@
+<div class="scroll-x">
+  <table class="metrics">
+    <thead><tr><th scope="col">Damage type</th><th scope="col">{{ count_head }}</th><th scope="col">{{ conf_head }}</th></tr></thead>
+    <tbody>
+      {% for r in rows %}
+      <tr data-zone="{{ r.zone }}">
+        <th scope="row">{{ r.label|capitalize }}</th>
+        <td><span class="num">{{ r.count }}</span></td>
+        <td><span class="num">{{ r.confidence }}%</span><span class="bar"><i style="--v: {{ r.confidence / 100 }}"></i></span></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

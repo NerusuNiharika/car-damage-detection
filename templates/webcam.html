@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Live camera | Car damage detection{% endblock %}
+
+{% block content %}
+<header class="page-head">
+  <h1 class="h-page">Live camera</h1>
+  <p class="lede">Point the webcam at a vehicle. Damage is boxed and labeled as you move.</p>
+</header>
+
+<section class="feed" aria-label="Live detection feed">
+  <img id="feed" src="{{ url_for('video_feed') }}" alt="Live webcam feed with detected damage marked">
+  <p class="error" id="cam-error" role="alert">No camera was found. Plug in a webcam, close other apps using it, then reload this page.</p>
+  <div class="feed-bar">
+    <span class="live">Live</span>
+    <form action="{{ url_for('stop') }}" method="POST">
+      <button class="btn btn-primary" type="submit">Stop camera</button>
+    </form>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.getElementById('feed').addEventListener('error', function () {
+    this.hidden = true;
+    var e = document.getElementById('cam-error');
+    e.classList.add('show');
+    e.style.color = '#ffb4a5';
+    e.style.padding = '18px 6px';
+  });
+</script>
+{% endblock %}

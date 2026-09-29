@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Car damage detection{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}">
+</head>
+<body>
+{# Some routes render another page's template (predict -> image, predict_img -> video, stop -> first). #}
+{% set alias = {'predict': 'image', 'predict_img': 'video', 'stop': 'first'} %}
+{% set here = alias.get(request.endpoint, request.endpoint) %}
+
+{% block chrome %}
+<a class="skip" href="#content">Skip to content</a>
+<div class="shell">
+  <aside class="rail">
+    <a class="brand" href="{{ url_for('first') }}">
+      <svg class="brand-mark" viewBox="0 0 30 44" aria-hidden="true">
+        <rect x="1" y="9" width="4" height="9" rx="2" fill="#050a12"/><rect x="25" y="9" width="4" height="9" rx="2" fill="#050a12"/>
+        <rect x="1" y="28" width="4" height="9" rx="2" fill="#050a12"/><rect x="25" y="28" width="4" height="9" rx="2" fill="#050a12"/>
+        <path d="M15 1c7 0 11 4 11 12v18c0 8-4 12-11 12S4 39 4 31V13C4 5 8 1 15 1Z" fill="#2b425d" stroke="#6f8bad" stroke-width="1.5"/>
+        <circle cx="21" cy="32" r="4" fill="#ff4d2e"/>
+      </svg>
+      <span class="brand-name">Car damage<br>detection</span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+      <a href="{{ url_for('first') }}" {% if here == 'first' %}aria-current="page"{% endif %}>Home</a>
+      <span class="nav-gap"></span>
+      <a href="{{ url_for('image') }}" {% if here == 'image' %}aria-current="page"{% endif %}>Photo check</a>
+      <a href="{{ url_for('video') }}" {% if here == 'video' %}aria-current="page"{% endif %}>Video check</a>
+      <a href="{{ url_for('webcam') }}" {% if here == 'webcam' %}aria-current="page"{% endif %}>Live camera</a>
+      <span class="nav-gap"></span>
+      <a href="{{ url_for('performance') }}" {% if here == 'performance' %}aria-current="page"{% endif %}>Model accuracy</a>
+      <a href="{{ url_for('chart') }}" {% if here == 'chart' %}aria-current="page"{% endif %}>Class breakdown</a>
+      <span class="nav-gap"></span>
+      {% if session.get('user') %}
+      <a href="{{ url_for('logout') }}">Sign out</a>
+      {% else %}
+      <a href="{{ url_for('login') }}" {% if here == 'login' %}aria-current="page"{% endif %}>Sign in</a>
+      {% endif %}
+    </nav>
+
+    <p class="rail-foot">YOLOv8 damage localization and severity estimation</p>
+  </aside>
+
+  <main class="main" id="content">
+    <div class="wrap">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+</div>
+{% endblock %}
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

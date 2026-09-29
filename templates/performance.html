@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Model accuracy | Car damage detection{% endblock %}
+
+{% block content %}
+<header class="page-head">
+  <h1 class="h-page">Model accuracy</h1>
+  <p class="lede">How well the YOLOv8 model finds each type of damage on the validation set.</p>
+</header>
+
+{% set rows = [
+  ('door',       'Damaged door',        0.93, 0.92,  0.98),
+  ('window',     'Damaged window',      0.96, 0.99,  0.99),
+  ('headlight',  'Damaged headlight',   0.98, 0.99,  0.99),
+  ('mirror',     'Damaged mirror',      0.85, 1.00,  0.97),
+  ('dent',       'Dent',                0.75, 0.70,  0.73),
+  ('hood',       'Damaged hood',        0.94, 0.95,  0.98),
+  ('bumper',     'Damaged bumper',      0.76, 0.95,  0.96),
+  ('windshield', 'Damaged windshield',  1.00, 0.998, 0.99)
+] %}
+
+<section class="panel">
+  <div class="callout">
+    <span class="big">91%</span>
+    <span class="muted">overall accuracy across 8 damage types. Dents are the hardest to catch, so check those results by eye.</span>
+  </div>
+
+  <div class="scroll-x">
+    <table class="metrics">
+      <caption>Precision, recall and mAP50 for each damage type. Higher is better.</caption>
+      <thead>
+        <tr><th scope="col">Damage type</th><th scope="col">Precision</th><th scope="col">Recall</th><th scope="col">mAP50</th></tr>
+      </thead>
+      <tbody>
+        {% for key, label, p, r, m in rows %}
+        <tr data-zone="{{ key }}" {% if m < 0.8 %}class="weak"{% endif %}>
+          <th scope="row">{{ label }}</th>
+          <td><span class="num">{{ '%.2f' % p }}</span><span class="bar"><i style="--v: {{ p }}"></i></span></td>
+          <td><span class="num">{{ '%.2f' % r }}</span><span class="bar"><i style="--v: {{ r }}"></i></span></td>
+          <td><span class="num">{{ '%.2f' % m }}</span><span class="bar"><i style="--v: {{ m }}"></i></span></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel matrix">
+  <h2 class="h-sec">Confusion matrix</h2>
+  <p class="muted small" style="margin: 6px 0 16px;">Rows show what the model predicted, columns show what was actually there. A strong diagonal means few mix-ups.</p>
+  <img src="{{ url_for('static', filename='confusion_matrix.png') }}" alt="Confusion matrix for the eight damage types">
+</section>
+{% endblock %}

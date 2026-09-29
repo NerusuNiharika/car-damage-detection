@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Video check | Car damage detection{% endblock %}
+
+{% block content %}
+<header class="page-head">
+  <h1 class="h-page">Video check</h1>
+  <p class="lede">Upload an MP4 walk-around of a vehicle. Every frame is scanned for damage.</p>
+</header>
+
+<div class="work">
+  <form class="panel form-stack" name="form1" action="{{ url_for('predict_img') }}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+    <label class="drop" for="inputfile">
+      <input type="file" name="file" id="inputfile" accept="video/mp4">
+      <span data-drop-idle>
+        <strong>Choose a video</strong><br>
+        <span class="muted small">or drop it here. MP4 only, up to 500 MB.</span>
+      </span>
+      <span class="picked" data-drop-name hidden></span>
+    </label>
+    {% include "_threshold.html" %}
+    <p class="error {% if error %}show{% endif %}" id="form-error" role="alert">{{ error or '' }}</p>
+    <button class="btn btn-primary" type="submit" data-busy="Scanning video">Scan video</button>
+    <p class="notice">Scanning runs on the computer hosting the app and can take a few minutes. Keep this page open until the result appears.</p>
+  </form>
+
+  <div class="stack">
+    {% if video_url %}
+    <div class="panel result">
+      <video controls playsinline src="{{ video_url }}" style="width:100%;border-radius:10px"></video>
+    </div>
+    <div class="panel">
+      <div class="verdict">
+        <span class="sev" data-level="{{ 'moderate' if stats.damaged_frames else 'none' }}">
+          {% if stats.damaged_frames %}Damage in {{ (100 * stats.damaged_frames / stats.frames)|round|int }}% of frames{% else %}No damage found{% endif %}
+        </span>
+        <span class="muted">{{ stats.frames }} frames scanned ({{ stats.seconds }} s)</span>
+      </div>
+      {% if stats.rows %}
+        {% set rows = stats.rows %}{% set count_head = 'Frames' %}{% set conf_head = 'Share of video' %}
+        {% include "_detections.html" %}
+      {% endif %}
+      <p class="btn-row" style="margin-top:16px"><a class="btn btn-dark" href="{{ video_url }}" download>Download annotated video</a></p>
+    </div>
+    {% else %}
+    <div class="panel result">
+      <div class="empty">
+        <svg viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="3" y="3" width="58" height="38" rx="6"/><path d="M26 14l14 8-14 8z"/></svg>
+        <strong>No video scanned yet</strong>
+        <span>Your annotated video will play here.</span>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function validateForm() {
+    var inputFile = document.getElementById('inputfile');
+    var err = document.getElementById('form-error');
+    err.classList.remove('show');
+    if (inputFile.files.length === 0) {
+      err.textContent = 'Choose a video before you start.';
+      err.classList.add('show');
+      return false;
+    }
+    if (['video/mp4'].indexOf(inputFile.files[0].type) === -1) {
+      err.textContent = 'Only MP4 videos work here. Choose a different file.';
+      err.classList.add('show');
+      return false;
+    }
+    return true;
+  }
+</script>
+{% endblock %}

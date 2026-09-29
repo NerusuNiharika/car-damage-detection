@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Class breakdown | Car damage detection{% endblock %}
+
+{% block content %}
+<header class="page-head">
+  <h1 class="h-page">Class breakdown</h1>
+  <p class="lede">The eight damage types side by side, each in its own color.</p>
+</header>
+
+<section class="panel">
+  <div id="class-chart" role="img" aria-label="Donut chart of the eight damage types"></div>
+  <p class="notice no-chart" id="chart-fallback">The chart could not load. Google Charts needs an internet connection.</p>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+  google.charts.load("current", { packages: ["corechart"] });
+  google.charts.setOnLoadCallback(drawChart);
+
+  var chart;
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['class', 'Share'],
+      ['damaged door',       40],
+      ['damaged window',     30],
+      ['damaged headlight',  80],
+      ['damaged mirror',     20],
+      ['dent',               70],
+      ['damaged hood',       50],
+      ['damaged bumper',     35],
+      ['damaged wind shield', 60]
+    ]);
+    var options = {
+      pieHole: 0.55,
+      pieSliceBorderColor: '#ffffff',
+      pieSliceText: 'none',
+      backgroundColor: 'transparent',
+      fontName: 'Archivo',
+      fontSize: 14,
+      colors: ['#4c6fff', '#12b3c4', '#ffb020', '#a66bff', '#ff4d2e', '#2fbf71', '#ff7ab6', '#5bc8ff'],
+      legend: { position: 'right', alignment: 'center', textStyle: { color: '#0c1626', fontSize: 15 } },
+      chartArea: { left: 10, top: 10, width: '92%', height: '92%' },
+      tooltip: { textStyle: { fontName: 'Archivo' } }
+    };
+    chart = new google.visualization.PieChart(document.getElementById('class-chart'));
+    chart.draw(data, options);
+    window.addEventListener('resize', function () { chart.draw(data, options); });
+  }
+  setTimeout(function () {
+    if (!window.google || !google.visualization) document.getElementById('chart-fallback').classList.remove('no-chart');
+  }, 6000);
+</script>
+{% endblock %}
