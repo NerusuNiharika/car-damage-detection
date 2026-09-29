@@ -1,3 +1,4 @@
+<div align="center">
 # 🚗 Car Damage Detection using YOLOv8
 
 ### An AI-powered vehicle damage detection system that identifies and classifies car damage from images, videos, and live webcam feeds using a custom-trained YOLOv8 model.
@@ -311,8 +312,6 @@ This project is developed for **educational and research purposes**.
 ## 👩‍💻 Author
 
 ### Nerusu Sai Niharika
-
-**GitHub:** [NerusuNiharika](https://github.com/NerusuNiharika)
 
 ---
 
