@@ -147,6 +147,16 @@ Class-wise model performance is displayed using Precision, Recall, and mAP50.
 
 ---
 
+### 🏗️ System Architecture
+
+The system architecture illustrates the flow between the user interface, Flask backend, YOLOv8 detection model, computer vision pipeline, and output generation.
+
+<p align="center">
+  <img src="screenshots/08-system-architecture.png" width="900">
+</p>
+
+---
+
 ## 📈 Model Performance
 
 The custom-trained YOLOv8 model reports the following performance across the eight damage classes:
@@ -240,6 +250,7 @@ vehicle_damage_detection/
 │   ├── 05-video-check.png
 │   ├── 06-live-camera.png
 │   └── 07-model-accuracy.png
+|   └── 08-system-architecture.png
 │
 ├── templates/
 │   ├── base.html
